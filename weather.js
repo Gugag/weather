@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function() {
-    const apiKey = 'A7iFGgY9GGpsbBbQ9RHPSDktG01pT7yP';
+    const apiKey = 'P4nqcaa6RucUZQaC31q3DuB3yQj6Ang3';
 
     document.getElementById('get-weather-btn').addEventListener('click', function() {
         const city = document.getElementById('city-input').value;
