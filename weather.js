@@ -5,7 +5,8 @@ document.addEventListener("DOMContentLoaded", function() {
         const city = document.getElementById('city-input').value;
         if (city) {
             const encodedCity = encodeURIComponent(city);
-            const locationUrl = `http://dataservice.accuweather.com/locations/v1/cities/search?apikey=${apiKey}&q=${encodedCity}`;
+            const locationUrl = `https://dataservice.accuweather.com/locations/v1/cities/search?apikey=${apiKey}&q=${encodedCity}`;
+
 
             fetch(locationUrl)
                 .then(response => response.json())
