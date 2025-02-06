@@ -1,35 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" sizes="16x16" href="https://i.ibb.co/DWSjRSf/sun.png">
-    <title>Weather App</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Weather App</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Weather Information</h1>
-    <div>
-        <input type="text" id="city-input" placeholder="Enter city name">
-        <button id="get-weather-btn">Get Weather</button>
-    </div>
-    <div id="weather-info">
-        <p id="temperature"></p>
-        <p id="feels-like"></p>
-        <p id="condition"></p>
-        <p id="wind-speed"></p>
-        <p id="wind-direction"></p>
-        <p id="pressure"></p>
-        <p id="precipitation"></p>
-        <p id="humidity"></p>
-        <p id="cloud-cover"></p>
-        <p id="uv-index"></p>
-        <p id="wind-gust"></p>
-    </div>
-    
+  <div class="weather-container">
+    <h1>Weather App</h1>
+    <form id="weatherForm">
+      <input type="text" id="cityInput" placeholder="Enter city name" required />
+      
+      <!-- Single dropdown for forecast type -->
+      <select id="forecastTypeSelect">
+        <option value="hourly" selected>Hourly Forecast</option>
+        <option value="1">1 Day Forecast</option>
+        <option value="2">2 Days Forecast</option>
+        <option value="3">3 Days Forecast</option>
+        <option value="4">4 Days Forecast</option>
+        <option value="5">5 Days Forecast</option>
+      </select>
+      
+      <button type="submit">Go</button>
+    </form>
 
-<div id="alertMessage" class="alert" style="display: none;"></div>
+    <!-- Displays current weather (optional) -->
+    <div id="weatherDisplay"></div>
 
-    <script src="weather.js"></script>
+    <!-- Displays hourly forecast (next 24 hours) -->
+    <div id="hourlyForecastDisplay"></div>
+
+    <!-- Displays daily forecast (if chosen) -->
+    <div id="dailyForecastDisplay"></div>
+  </div>
+
+  <script src="weather.js"></script>
 </body>
 </html>
