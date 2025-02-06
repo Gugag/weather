@@ -1,4 +1,4 @@
- // Replace with your OpenWeatherMap API key
+// Replace with your OpenWeatherMap API key
     const apiKey = "d80569366e57c4dc822965201a095ff6";
 
     const weatherForm = document.getElementById("weatherForm");
@@ -10,18 +10,18 @@
     const hourlyForecastDisplay = document.getElementById("hourlyForecastDisplay");
     const dailyForecastDisplay = document.getElementById("dailyForecastDisplay");
 
-    // Listen for form submission
+    // Listen for form submission (manual city search)
     weatherForm.addEventListener("submit", function (e) {
       e.preventDefault();
       const city = cityInput.value.trim();
-      const forecastType = forecastTypeSelect.value;  // "hourly" or "1"..."5"
+      const forecastType = forecastTypeSelect.value;
       if (city !== "") {
         getWeather(city);
         getForecast(city, forecastType);
       }
     });
 
-    // Fetch current weather data
+    // Fetch current weather by city name
     function getWeather(city) {
       const url = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&appid=${apiKey}&units=metric`;
 
@@ -40,7 +40,7 @@
         });
     }
 
-    // Display current weather
+    // Display current weather information
     function displayCurrentWeather(data) {
       const { name, main, weather } = data;
       const temp = Math.round(main.temp);
@@ -58,7 +58,7 @@
       `;
     }
 
-    // Fetch forecast data (3-hour intervals for up to 5 days)
+    // Fetch forecast by city name
     function getForecast(city, forecastType) {
       const url = `https://api.openweathermap.org/data/2.5/forecast?q=${encodeURIComponent(city)}&appid=${apiKey}&units=metric`;
 
@@ -66,16 +66,13 @@
         .then(response => response.json())
         .then(data => {
           if (data.cod === "200") {
-            // Clear both hourly and daily sections
+            // Clear previous displays
             hourlyForecastDisplay.innerHTML = "";
             dailyForecastDisplay.innerHTML = "";
 
-            // If user selected "hourly", show next 24 hours
             if (forecastType === "hourly") {
               displayHourlyForecast(data);
-            } 
-            // Otherwise, parse the forecastType as an integer and show that many days
-            else {
+            } else {
               const days = parseInt(forecastType, 10);
               if (!isNaN(days) && days >= 1 && days <= 5) {
                 displayDailyForecast(data, days);
@@ -93,9 +90,8 @@
         });
     }
 
-    // Display next 24 hours (3-hour intervals)
+    // Display next 24-hour forecast (3-hour intervals)
     function displayHourlyForecast(data) {
-      // data.list is in 3-hour increments, so the first 8 entries represent ~24 hours
       const next24Hours = data.list.slice(0, 8);
 
       let hourlyHTML = `<h2>Next 24-Hour Forecast</h2>`;
@@ -103,7 +99,6 @@
 
       next24Hours.forEach(item => {
         const date = new Date(item.dt_txt);
-        // e.g., "Thu 3 PM"
         const timeLabel = date.toLocaleString(undefined, {
           weekday: 'short',
           hour: 'numeric',
@@ -128,7 +123,7 @@
       hourlyForecastDisplay.innerHTML = hourlyHTML;
     }
 
-    // Display daily forecast (filtering items for 12:00:00) up to 'days'
+    // Display daily forecast (12:00:00 entries) for a specified number of days
     function displayDailyForecast(data, days) {
       const forecastItems = data.list.filter(item => item.dt_txt.includes("12:00:00"));
       const forecastToDisplay = forecastItems.slice(0, days);
@@ -156,3 +151,71 @@
       forecastHTML += `</div>`;
       dailyForecastDisplay.innerHTML = forecastHTML;
     }
+
+    // New functions: Fetch weather and forecast by geographic coordinates
+    function getWeatherByCoords(lat, lon) {
+      const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          if (data.cod === 200) {
+            displayCurrentWeather(data);
+          } else {
+            weatherDisplay.innerHTML = `<p class="error">Unable to fetch weather for your location.</p>`;
+          }
+        })
+        .catch(error => {
+          console.error("Error fetching weather by coordinates:", error);
+          weatherDisplay.innerHTML = `<p class="error">An error occurred fetching weather data.</p>`;
+        });
+    }
+
+    function getForecastByCoords(lat, lon, forecastType) {
+      const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          if (data.cod === "200") {
+            hourlyForecastDisplay.innerHTML = "";
+            dailyForecastDisplay.innerHTML = "";
+
+            if (forecastType === "hourly") {
+              displayHourlyForecast(data);
+            } else {
+              const days = parseInt(forecastType, 10);
+              if (!isNaN(days) && days >= 1 && days <= 5) {
+                displayDailyForecast(data, days);
+              }
+            }
+          } else {
+            hourlyForecastDisplay.innerHTML = `<p class="error">Unable to fetch forecast for your location.</p>`;
+            dailyForecastDisplay.innerHTML = "";
+          }
+        })
+        .catch(error => {
+          console.error("Error fetching forecast by coordinates:", error);
+          hourlyForecastDisplay.innerHTML = `<p class="error">An error occurred fetching forecast data.</p>`;
+          dailyForecastDisplay.innerHTML = "";
+        });
+    }
+
+    // Automatically fetch weather based on user's current location on page load
+    document.addEventListener("DOMContentLoaded", function () {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          position => {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+            getWeatherByCoords(lat, lon);
+            // Use the currently selected forecast type (default is "hourly")
+            getForecastByCoords(lat, lon, forecastTypeSelect.value);
+          },
+          error => {
+            console.error("Geolocation error:", error);
+            // Optionally, you can display a message or fallback to a default location here.
+          }
+        );
+      } else {
+        console.error("Geolocation is not supported by your browser.");
+      }
+    });
