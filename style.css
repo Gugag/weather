@@ -117,10 +117,10 @@
       font-weight: bold;
     }
     
-    /* Forecast containers and cards */
+   /* Forecast containers and cards */
     #hourlyForecastDisplay {
       margin-top: 2rem;
-      color: #000;
+      color: #000 ;
     }
     #hourlyForecastDisplay h2 {
       color: #fff;
@@ -130,9 +130,10 @@
 
     #dailyForecastDisplay {
       margin-top: 2rem;
+      color: #000
     }
     #dailyForecastDisplay h2 {
-      color: #000;
+      color: #fff;
       font-size: 1.3rem;
       margin-bottom: 1rem;
     }
