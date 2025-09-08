@@ -1,40 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0ea5e9" />
+  <meta name="description" content="Free Weather App — search by city or use your location. Hourly or 1–5 day forecast. No API key." />
+  <meta property="og:title" content="Weather App" />
+  <meta property="og:description" content="Simple weather with hourly & daily forecasts powered by Open‑Meteo." />
   <title>Weather App</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="weather-container">
-    <h1>Weather App</h1>
-    <form id="weatherForm">
-      <input type="text" id="cityInput" placeholder="Enter city name" required />
-      
-      <!-- Single dropdown for forecast type -->
-      <select id="forecastTypeSelect">
-        <option value="hourly" selected>Hourly Forecast</option>
-        <option value="1">1 Day Forecast</option>
-        <option value="2">2 Days Forecast</option>
-        <option value="3">3 Days Forecast</option>
-        <option value="4">4 Days Forecast</option>
-        <option value="5">5 Days Forecast</option>
-      </select>
-      
-      <button type="submit">Go</button>
-    </form>
+  <div class="backdrop"></div>
+  <header class="site-header">
+    <div class="container header-inner">
+      <h1>Weather App</h1>
+      <div class="header-actions">
+        <button id="themeToggle" class="ghost" title="Toggle theme" aria-label="Toggle theme">🌙</button>
+      </div>
+    </div>
+  </header>
 
-    <!-- Displays current weather (optional) -->
-    <div id="weatherDisplay"></div>
+  <main class="container">
+    <section class="card">
+      <form id="weatherForm" class="form-grid" autocomplete="off">
+        <div class="form-group">
+          <label for="cityInput">City</label>
+          <input type="text" id="cityInput" placeholder="e.g., Tbilisi, London, Tokyo" />
+        </div>
 
-    <!-- Displays hourly forecast (next 24 hours) -->
-    <div id="hourlyForecastDisplay"></div>
+        <div class="form-group">
+          <label for="forecastTypeSelect">Forecast</label>
+          <select id="forecastTypeSelect">
+            <option value="hourly" selected>Hourly (next 24h)</option>
+            <option value="1">1 day</option>
+            <option value="2">2 days</option>
+            <option value="3">3 days</option>
+            <option value="4">4 days</option>
+            <option value="5">5 days</option>
+          </select>
+        </div>
 
-    <!-- Displays daily forecast (if chosen) -->
-    <div id="dailyForecastDisplay"></div>
-  </div>
+        <div class="btn-row">
+          <button type="submit" class="primary">Go</button>
+          <button type="button" id="useLocationBtn" class="ghost">Use my location</button>
+          <button type="button" id="resetBtn" class="ghost">Reset</button>
+        </div>
+        <p class="muted small">Tip: press Ctrl/⌘+Enter to search. Data from <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open‑Meteo</a>.</p>
+      </form>
+      <div id="alert" class="alert hidden" role="status"></div>
+    </section>
 
-  <script src="weather.js"></script>
+    <section class="card current-weather hidden" id="currentWrap">
+      <div class="current-row">
+        <div class="icon" id="currentIcon" aria-hidden="true"></div>
+        <div>
+          <h2 id="currentTitle">—</h2>
+          <div class="sub" id="currentSub">—</div>
+        </div>
+      </div>
+      <div class="kv-grid">
+        <div class="kv"><div class="k">Temperature</div><div class="v" id="curTemp">—</div></div>
+        <div class="kv"><div class="k">Feels like</div><div class="v" id="curFeels">—</div></div>
+        <div class="kv"><div class="k">Humidity</div><div class="v" id="curHum">—</div></div>
+        <div class="kv"><div class="k">Wind</div><div class="v" id="curWind">—</div></div>
+      </div>
+    </section>
+
+    <section class="card" id="hourlySection">
+      <h2>Hourly</h2>
+      <div id="hourlyForecastDisplay" class="forecast-container"></div>
+    </section>
+
+    <section class="card" id="dailySection">
+      <h2>Daily</h2>
+      <div id="dailyForecastDisplay" class="forecast-container"></div>
+    </section>
+
+    <section class="ad card">
+      <div class="ad-box">
+        <ins class="adsbygoogle"
+             style="display:inline-block;width:728px;height:90px"
+             data-ad-client="ca-pub-1234552946070834"
+             data-ad-slot="3273843323"></ins>
+      </div>
+    </section>
+  </main>
+
+  <footer class="container muted small">
+    <p>Weather data by Open‑Meteo. This site stores your last search locally.</p>
+  </footer>
+
+  <script src="weather.js" type="module"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1234552946070834" crossorigin="anonymous"></script>
+  <script>window.addEventListener('load',()=>{(adsbygoogle=window.adsbygoogle||[]).push({});});</script>
 </body>
 </html>
