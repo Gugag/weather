@@ -1,204 +1,59 @@
-/* Overall page styling */
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-          /* Set the background image */
-          background-image: url("background.jpg");
-          /* Ensure the image covers the whole page */
-          background-size: cover;
-          /* Center the image */
-          background-position: center;
-          /* Prevent the image from repeating */
-          background-repeat: no-repeat;
-          /* Optional: set a fallback background color */
-          background-color: #f0f0f0;
-          margin: 0;
-          padding: 0;
-      color: #ffffffc1;
-      display: flex;
-      justify-content: center;
-      height: 100vh;
-      
-    }
-    
-    /* Weather app container */
-    .weather-container {
-      background: transparent;
-      padding: 2rem;
-      border-radius: 10px;
-      text-align: center;
-      min-width: 300px;
-      width: auto;
-      
-    }
-    
-    h1 {
-      margin-top: 0;
-      font-size: 1.4rem;
-      color: #fff;
-      background-color: transparent;
-      font-family: Verdana;
-      text-shadow: 5px 5px 15px rgb(12, 11, 11);
-      
-    }
-    
-    /* Form styling */
-    form {
-      margin-bottom: 1.5rem;
-    }
-    
-    input[type="text"] {
-      padding: 0.5rem;
-      width: 190px;
-      height: 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      font-size: 13px;
-      outline: none;
-      margin-bottom: 0.5rem;
-      box-shadow: 5px 5px 15px rgb(12, 11, 11);
-      
-    }
-    
-    select {
-      height: 27px;
-      width: 140px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      font-size: 13px;
-      outline: none;
-      margin-bottom: 0.5rem;
-      appearance: none;
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns%3D%22http%3A//www.w3.org/2000/svg%22 viewBox%3D%220 0 24 24%22 fill%3D%22none%22 stroke%3D%22%23000000%22 stroke-width%3D%222%22 stroke-linecap%3D%22round%22 stroke-linejoin%3D%22round%22%3E%3Cpolyline points%3D%226 9 12 15 18 9%22/%3E%3C/svg%3E');
-      background-repeat: no-repeat;
-      background-position: right 10px center;
-      background-size: 18px;
-      color: #000;
-      cursor: pointer;
-      padding-left: 5px;
-      margin-left: 5px;
-      box-shadow: 5px 5px 15px rgb(12, 11, 11);
-    }
+:root{
+  --bg:#0b1220; --card:#0f172a; --text:#e5e7eb; --muted:#94a3b8; --border:#1e293b;
+  --primary:#0ea5e9; --primary-600:#0284c7; --warn:#f59e0b; --err:#ef4444;
+}
+:root.light{
+  --bg:#f7fafc; --card:#ffffff; --text:#0f172a; --muted:#475569; --border:#e2e8f0;
+  --primary:#0ea5e9; --primary-600:#0284c7; --warn:#b45309; --err:#b91c1c;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;}
+body{min-height:100vh;background-image:url('background.jpg');background-size:cover;background-position:center;background-repeat:no-repeat;}
+.backdrop{position:fixed;inset:0;background:linear-gradient(180deg,rgba(2,6,23,.55),rgba(2,6,23,.35) 35%,rgba(2,6,23,.65));pointer-events:none}
+.container{max-width:1000px;margin:0 auto;padding:16px;}
+.site-header{position:sticky;top:0;z-index:10;border-bottom:1px solid var(--border);
+  background:linear-gradient(180deg, rgba(14,165,233,.08), rgba(14,165,233,0));backdrop-filter:blur(6px) saturate(120%);}
+.header-inner{display:flex;align-items:center;justify-content:space-between;}
+h1{font-size:clamp(22px,2.8vw,32px);margin:8px 0;text-shadow:0 5px 20px rgba(0,0,0,.35)}
+h2{font-size:clamp(18px,2.2vw,24px);margin:0 0 10px 0;}
 
-    /* For narrow down arrow (some browsers may not use this pseudo-element) */
-    select::after {
-      content: '\25BC'; /* Unicode character for down arrow */
-      position: absolute;
-      right: 15px;
-      top: 15px;
-      pointer-events: none; /* Ensure clicks go to the select, not the arrow */
-      color: #fff;
-      font-size: 12px;
-    }
-    
-    button {
-        height: 28px;
-        width: 50px;  
-        border: none;
-        background: #8ef705;
-        color: rgb(12, 10, 10);
-        font-size: 1rem;
-        border-radius: 5px;
-        cursor: pointer;
-        margin-left: 0.5rem;
-        box-shadow: 5px 5px 15px rgb(12, 11, 11);
-      
-    }
-    
-    button:hover {
-      background: #8ef705b8;
-    }
-    
-    .error {
-      color: red;
-      font-weight: bold;
-    }
-    
-   /* Forecast containers and cards */
-    #hourlyForecastDisplay {
-      margin-top: 2rem;
-      color: #000 ;
-    }
-    #hourlyForecastDisplay h2 {
-      color: #fff;
-      font-size: 1.3rem;
-      margin-bottom: 1rem;
-    }
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;margin:16px 0;box-shadow:0 6px 20px rgba(0,0,0,.1);backdrop-filter:blur(6px) saturate(120%);}
+.muted{color:var(--muted);} .small{font-size:12px;} .hidden{display:none !important;}
 
-    #dailyForecastDisplay {
-      margin-top: 2rem;
-      color: #000
-    }
-    #dailyForecastDisplay h2 {
-      color: #fff;
-      font-size: 1.3rem;
-      margin-bottom: 1rem;
-    }
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:end}
+@media (max-width:720px){.form-grid{grid-template-columns:1fr}}
 
-    .forecast-container {
-      display: flex;
-      flex-direction: row;
-      flex-wrap: nowrap;      /* Prevents wrapping to a new line */
-      overflow-x: auto;       /* Adds horizontal scroll if needed */
-      gap: 10px;              /* Adds space between forecast cards */
-      justify-content: center;
-      margin-bottom: 1rem;
-    }
-    
-    .forecast-card {
-         background: transparent;
-        
-     /*background: rgba(255, 255, 255, 0.8);*/
-      border-radius: 8px;
-      padding: 10px;
-      text-align: center;
-      width: 90px;
-      flex-shrink: 0;         /* Prevents the card from shrinking */
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    }
-    
-    .forecast-card h3 {
-      font-size: 0.9rem;
-      margin: 0.5rem 0;
-      color: #333;
-    }
-    
-    .forecast-card .temp {
-      font-size: 1rem;
-      font-weight: bold;
-      margin: 0.5rem 0;
-    }
-    
-    .forecast-card .description {
-      font-size: 0.9rem;
-      text-transform: capitalize;
-      color: #333;
-    }
+.form-group label{display:block;font-weight:600;margin-bottom:6px;}
+input,select,button{font:inherit}
+input[type="text"], select{
+  width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:10px;background:var(--card);color:var(--text);
+  box-shadow:0 8px 24px rgba(0,0,0,.15);
+}
+input:focus,select:focus{outline:3px solid rgba(14,165,233,.35);outline-offset:2px;}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap}
+button{cursor:pointer;border-radius:10px;border:1px solid var(--border);padding:10px 14px;background:var(--card);color:var(--text);min-height:44px;}
+button.primary{background:linear-gradient(90deg,var(--primary),var(--primary-600));color:#fff;border:none;}
+button.ghost{background:transparent;border-color:var(--border);} button:disabled{opacity:.55;cursor:not-allowed;}
+.header-actions .ghost{width:40px;height:40px;display:grid;place-items:center;border:1px solid var(--border);}
 
-    /* Current weather card (optional if you want to show current weather) */
-    .current-weather {
-      margin-top: 1rem;
-      color: #fff;
-    }
-    .current-weather h2 {
-      margin: 0.5rem 0;
-      font-size: 1.4rem;
-      color: #fff;
-    }
-    .current-weather img {
-      width: 90px;
-      height: 90px;
-    }
-    .current-weather .temp {
-      font-size: 1.5rem;
-      font-weight: bold;
-      margin: 0.5rem 0;
-    }
-    .current-weather .description {
-      font-size: 1.1rem;
-      text-transform: capitalize;
-      color: #000;
-    }
+.alert{border:1px solid var(--warn);background:rgba(245,158,11,.15);color:#fff;padding:10px;border-radius:10px;margin-top:10px}
+:root.light .alert{color:#7c2d12}
+
+.current-row{display:flex;gap:14px;align-items:center}
+.current-weather .icon{font-size:50px;filter:drop-shadow(0 6px 18px rgba(0,0,0,.35))}
+.current-weather h2{margin:0}
+.current-weather .sub{color:var(--muted)}
+.kv-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+.kv{background:rgba(2,6,23,.25);border:1px solid var(--border);border-radius:12px;padding:10px;text-align:center}
+.k{color:var(--muted);font-weight:600}
+.v{font-variant-numeric:tabular-nums}
+
+.forecast-container{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px}
+.forecast-card{scroll-snap-align:start; background:rgba(2,6,23,.25);border:1px solid var(--border);border-radius:12px;padding:10px;text-align:center;min-width:110px}
+.forecast-card .time{color:var(--muted);font-size:12px}
+.forecast-card .ico{font-size:26px;display:block;margin:4px 0;filter:drop-shadow(0 6px 18px rgba(0,0,0,.35))}
+.forecast-card .temp{font-weight:700}
+
+.ad .ad-box{display:grid;place-items:center;min-height:90px;background:rgba(2,6,23,.15);border:1px dashed var(--border);border-radius:12px}
+
+footer{padding-bottom:24px}
